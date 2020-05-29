@@ -7,17 +7,7 @@ class BarChart extends Component {
     chartRef = React.createRef();
 
     componentDidMount() {
-        let db = appfirebase.database().ref("Messages");
-        let arr = [];
-        db.once("value").then(function (snap) {
-            const temp = snap.val().JSvziki9NgcaWoDQmi3zK9oyRN82.Temperatures;
-            for (const tempKey in temp) {
-                //console.log(temp[tempKey]);
-                arr  = arr.concat(temp[tempKey].data);
-                //console.log(arr)
-            }
-        });
-        console.log(arr);
+
 
         const myChartRef = this.chartRef.current.getContext("2d");
         new Chart(myChartRef, {
@@ -28,7 +18,7 @@ class BarChart extends Component {
                 datasets: [
                     {
                         label: "Sales",
-                        data: arr,
+                        data: [10 , 20 , 30 , 40 ,50 ,60],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',

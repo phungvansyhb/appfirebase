@@ -1,11 +1,16 @@
 import React, {Component} from 'react';
 import Chart from "chart.js";
+import {connect} from "react-redux";
+import {fetchFfb} from "../../../actions/fetchAction";
+
 
 class LineChar extends Component {
     chartRef = React.createRef();
-
+    constructor(props) {
+        super(props);
+    }
     componentDidMount() {
-
+        this.props.fetch();
         const myChartRef = this.chartRef.current.getContext("2d");
 
         new Chart(myChartRef, {
@@ -53,5 +58,17 @@ class LineChar extends Component {
         );
     }
 }
+function mapStateToProps(state , ownProps){
+    return {
+        list: state.fetchReducer
+    }
+}
 
-export default LineChar;
+function mapDispatchToProps(dispatch){
+    return {
+        fetch : ()=> dispatch(fetchFfb()),
+        dispatch
+    }
+
+}
+export default connect(mapStateToProps,mapDispatchToProps)(LineChar);

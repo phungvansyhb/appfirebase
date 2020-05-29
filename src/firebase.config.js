@@ -1,6 +1,6 @@
 import firebase from "firebase";
 
-const firebaseconfig = {
+export const firebaseconfig = {
   // apiKey: process.env.REACT_APP_firebase_apiKey,
   // authDomain: process.env.REACT_APP_firebase_authDomain,
   // databaseURL: process.env.REACT_APP_firebase_databaseURL,
@@ -16,6 +16,6 @@ const firebaseconfig = {
   messagingSenderId: "329989648653",
   appId: "1:329989648653:web:8448d1a24fc0286f48c044"
 };
-export const appfirebase = firebase.initializeApp(firebaseconfig);
-
+export const firebaseinit =firebase.initializeApp(firebaseconfig)
+export const firebaseMsgref =firebaseinit.database().ref("Messages")
 
