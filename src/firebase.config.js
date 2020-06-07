@@ -16,6 +16,10 @@ export const firebaseconfig = {
   messagingSenderId: "329989648653",
   appId: "1:329989648653:web:8448d1a24fc0286f48c044"
 };
-export const firebaseinit =firebase.initializeApp(firebaseconfig)
-export const firebaseMsgref =firebaseinit.database().ref("Messages")
+export const firebaseinit = firebase.initializeApp(firebaseconfig)
 
+export const userId = "JSvziki9NgcaWoDQmi3zK9oyRN82";
+
+export function firebaseref(ref) {
+  return firebaseinit.database().ref(ref)
+}

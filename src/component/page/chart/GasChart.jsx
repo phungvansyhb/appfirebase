@@ -1,27 +1,29 @@
 import React, {Component} from 'react';
 import Chart from "chart.js";
 import {connect} from "react-redux";
-import {fetchFfb} from "../../../actions/fetchAction";
+import { fetchFfb} from "../../../actions/fetchAction";
 
-
-class LineChar extends Component {
+class GasChart extends Component {
     chartRef = React.createRef();
-    constructor(props) {
-        super(props);
-    }
     componentDidMount() {
-        this.props.fetch();
+        this.props.fetchFfb(this.props.date , this.props.type);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.date !== this.props.date){
+            this.componentDidMount()
+        }
         const myChartRef = this.chartRef.current.getContext("2d");
 
         new Chart(myChartRef, {
             type: "line",
             data: {
                 //Bring in data
-                labels: ["Monday", "TuesDay", "WesDay", "ThurDay", "Friday", "Saturday"],
+                labels: this.props.labels,
                 datasets: [
                     {
-                        label: "temporature",
-                        data: [86, 67, 91, 100, 200, 150],
+                        label: "Gas",
+                        data: this.props.lists,
                         backgroundColor: [
 
                             'rgba(255, 159, 64, 0.2)'
@@ -34,13 +36,12 @@ class LineChar extends Component {
 
                 ],
             },
-
             options: {
                 scales: {
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
-                            suggestedMax: 300
+                            suggestedMax: 100
                         }
                     }],
 
@@ -50,25 +51,27 @@ class LineChar extends Component {
     }
 
     render() {
-        console.log("chart line render")
+        console.log("chart temperature render")
         return (
             <div className="graphContainer">
-                <canvas id="myChart" ref={this.chartRef}/>
+                <canvas id="myChart"  ref={this.chartRef} />
             </div>
         );
     }
 }
-function mapStateToProps(state , ownProps){
+function mapStateToProps(state, ownProps) {
     return {
-        list: state.fetchReducer
+        date: state.fetchReducer.date ,
+        type : state.fetchReducer.type,
+        lists : state.fetchReducer.listData,
+        labels : state.fetchReducer.listLabel,
     }
 }
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch) {
     return {
-        fetch : ()=> dispatch(fetchFfb()),
+        fetchFfb: (date, type) => dispatch( fetchFfb(date, type) ),
         dispatch
     }
-
 }
-export default connect(mapStateToProps,mapDispatchToProps)(LineChar);
+export default connect (mapStateToProps , mapDispatchToProps) (GasChart);
